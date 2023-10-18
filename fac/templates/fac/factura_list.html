@@ -1,0 +1,94 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+<div class="card shadow mb-4">
+  {% csrf_token %}
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Listado de Facturas</h6>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    {% if not obj %}
+    <div class="alert alert-info">No hay Facturas</div>
+    {% endif %}
+    <div class="buttons-toolbar">
+        <a class="dropdown-item" href="{% url 'fac:factura_new' %}"><i class="far fa-calendar-plus"></i> Nueva Factura</a>
+    </div>
+    <table
+        data-toggle="table"
+        data-search="true"
+        data-toolbar=".buttons-toolbar"
+    >
+      <thead>
+        <th data-sortable="true" data-field="id">No.</th>        
+        <th data-sortable="true" data-field="nombres">Cliente</th>
+        <th data-sortable="true" data-field="apellidos">Total</th>
+        <!--<th data-field="estado">Estado</th>-->
+        <th class="all">Acciones</th>
+      </thead>
+      <tbody>
+        {% for item in obj %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.cliente }}</td>
+          <td>{{ item.total }}</td>
+          <!--<td>{{item.estado|yesno:"Activo,Inactivo"}}</td>-->
+          <td>
+            <div>
+              {% if item.estado_fel == 'F' %}
+                <a id_fact ="{{ item.id }}" onclick="verFactura({{ item.id }});"  id="id_fact" class="href btn btn-danger btn-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Ver Factura"><i class="fas fa-file-invoice"></i></a>
+
+                {% else %}
+                <a href="{% url 'fac:factura_edit' item.id %}" class="href btn btn-warning btn-circle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar Fact">
+                  <i class="far fa-edit"></i>
+              </a>
+                {% endif %}
+                
+                
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+{% block js_page %}
+<script>
+  
+  
+  function verFactura(id) {
+       
+            let formData = new FormData();
+            const token = document.querySelector('input[name="csrfmiddlewaretoken"]');
+            formData.append('id', id)
+          
+            fetch("{% url 'fac:ver_factura' %}", {
+                method: "POST",
+                body: formData,
+                headers: { "X-CSRFToken": token.value },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+
+                    if (data.flag) {
+                        let pdfContenido = atob(data.Facturapdf);
+                        let blob = new Blob([pdfContenido], { type: 'application/pdf' });
+                        let url = URL.createObjectURL(blob)
+                        window.open(url, '_blank');
+                    } else {
+
+                        mensaje(data.mensaje, 'red');
+                    }
+
+                })
+                .catch((error) => {
+                    mensaje(error, 'red');
+                });
+        }
+
+  
+</script>
+{% endblock %}
