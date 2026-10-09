@@ -1,0 +1,244 @@
+{
+  "project": "Tarea 2 - Modelo de Amenazas de GitLab",
+  "version": "1.0",
+  "methodology": "STRIDE",
+  "scope": "Modelo lógico académico basado en documentación pública de GitLab",
+  "note": "No representa arquitectura interna propietaria de GitLab. Debe revisarse y exportarse desde OWASP Threat Dragon para obtener el artefacto oficial.",
+  "diagrams": [
+    {
+      "id": "DFD0",
+      "title": "Contexto GitLab",
+      "level": 0,
+      "elements": [
+        "Usuario/Cliente",
+        "GitLab",
+        "Proveedor de identidad",
+        "Runner/CI-CD"
+      ],
+      "trust_boundaries": [
+        "TB-01 Dispositivo/red del usuario",
+        "TB-02 Internet",
+        "TB-03 Servicios GitLab",
+        "TB-04 Terceros"
+      ]
+    },
+    {
+      "id": "DFD1",
+      "title": "Procesos principales GitLab",
+      "level": 1,
+      "processes": [
+        "Autenticación y sesión",
+        "Proyectos y repositorios",
+        "Issues/Merge Requests",
+        "CI/CD y jobs",
+        "API REST",
+        "Runner",
+        "Registro/monitoreo"
+      ],
+      "data_stores": [
+        "Identidades y permisos",
+        "Código y metadatos",
+        "Artefactos/paquetes",
+        "Logs/auditoría"
+      ]
+    },
+    {
+      "id": "DFD2",
+      "title": "Autorización de acceso mediante API",
+      "level": 2,
+      "processes": [
+        "Validar token/scopes",
+        "Autorizar recurso",
+        "Ejecutar operación",
+        "REST API/servicio"
+      ],
+      "data_stores": [
+        "Identidad/rol/membresía",
+        "Proyecto/recurso/ACL",
+        "Auditoría"
+      ]
+    }
+  ],
+  "threats": [
+    {
+      "id": "T01",
+      "category": "Spoofing",
+      "element": "P01 / D01",
+      "description": "Compromiso de credenciales y suplantación de usuario",
+      "probability": 4,
+      "impact": 4,
+      "score": 16,
+      "risk": "Crítico"
+    },
+    {
+      "id": "T02",
+      "category": "Tampering",
+      "element": "P02 / D02",
+      "description": "Modificación no autorizada de repositorios o configuraciones",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T03",
+      "category": "Repudiation",
+      "element": "P03 / D04",
+      "description": "Dificultad para atribuir cambios críticos por registros insuficientes",
+      "probability": 2,
+      "impact": 3,
+      "score": 6,
+      "risk": "Medio"
+    },
+    {
+      "id": "T04",
+      "category": "Information Disclosure",
+      "element": "D02 / API",
+      "description": "Exposición de código, secretos o metadatos por permisos incorrectos",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T05",
+      "category": "Denial of Service",
+      "element": "API / P05",
+      "description": "Consumo abusivo de API que degrade el servicio",
+      "probability": 3,
+      "impact": 3,
+      "score": 9,
+      "risk": "Medio"
+    },
+    {
+      "id": "T06",
+      "category": "Elevation of Privilege",
+      "element": "P02 / D01",
+      "description": "Escalamiento desde rol limitado hacia Maintainer/Owner",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T07",
+      "category": "Tampering",
+      "element": "CI/CD / Runner",
+      "description": "Ejecución de código no confiable con capacidad de alterar artefactos",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T08",
+      "category": "Information Disclosure",
+      "element": "CI/CD",
+      "description": "Exposición de variables o tokens en jobs",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T09",
+      "category": "Spoofing",
+      "element": "Runner",
+      "description": "Suplantación o secuestro de runner mediante token",
+      "probability": 2,
+      "impact": 4,
+      "score": 8,
+      "risk": "Medio"
+    },
+    {
+      "id": "T10",
+      "category": "Tampering",
+      "element": "API",
+      "description": "Manipulación de solicitudes para operar sobre recursos ajenos",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T11",
+      "category": "Information Disclosure",
+      "element": "API / D02",
+      "description": "Acceso a proyectos privados mediante IDOR/BOLA",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T12",
+      "category": "Denial of Service",
+      "element": "Runner",
+      "description": "Saturación de runners o ejecución de jobs costosos",
+      "probability": 2,
+      "impact": 3,
+      "score": 6,
+      "risk": "Medio"
+    },
+    {
+      "id": "T13",
+      "category": "Repudiation",
+      "element": "API / D04",
+      "description": "Ausencia de trazabilidad suficiente para acciones automatizadas",
+      "probability": 2,
+      "impact": 3,
+      "score": 6,
+      "risk": "Medio"
+    },
+    {
+      "id": "T14",
+      "category": "Elevation of Privilege",
+      "element": "CI/CD",
+      "description": "Job con privilegios excesivos accede a recursos sensibles",
+      "probability": 3,
+      "impact": 4,
+      "score": 12,
+      "risk": "Alto"
+    },
+    {
+      "id": "T15",
+      "category": "Information Disclosure",
+      "element": "D03",
+      "description": "Artefactos o paquetes accesibles por actores no autorizados",
+      "probability": 2,
+      "impact": 4,
+      "score": 8,
+      "risk": "Medio"
+    },
+    {
+      "id": "T16",
+      "category": "Denial of Service",
+      "element": "D02 / D03",
+      "description": "Agotamiento de almacenamiento por cargas abusivas",
+      "probability": 2,
+      "impact": 3,
+      "score": 6,
+      "risk": "Medio"
+    },
+    {
+      "id": "T17",
+      "category": "Tampering",
+      "element": "D04",
+      "description": "Alteración o eliminación de registros de auditoría",
+      "probability": 2,
+      "impact": 4,
+      "score": 8,
+      "risk": "Medio"
+    },
+    {
+      "id": "T18",
+      "category": "Spoofing",
+      "element": "IdP / P01",
+      "description": "Uso indebido de integración de identidad federada",
+      "probability": 2,
+      "impact": 4,
+      "score": 8,
+      "risk": "Medio"
+    }
+  ]
+}
