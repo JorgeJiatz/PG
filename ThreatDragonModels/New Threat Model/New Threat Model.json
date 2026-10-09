@@ -13,7 +13,7 @@
     "diagrams": [
       {
         "id": 0,
-        "title": "Nuevo diagrama STRIDE",
+        "title": "Nivel 0",
         "diagramType": "STRIDE",
         "placeholder": "Descripción de nuevo diagrama STRIDE",
         "thumbnail": "./public/content/images/thumbnail.stride.jpg",
@@ -632,9 +632,18 @@
             }
           }
         ]
+      },
+      {
+        "id": 1,
+        "title": "Nivel 1",
+        "diagramType": "STRIDE",
+        "placeholder": "Descripción de nuevo diagrama STRIDE",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": []
       }
     ],
-    "diagramTop": 1,
+    "diagramTop": 2,
     "reviewer": "Jiatz",
     "threatTop": 0
   }
