@@ -2747,9 +2747,18 @@
             }
           }
         ]
+      },
+      {
+        "id": 2,
+        "title": "Nivel 2",
+        "diagramType": "STRIDE",
+        "placeholder": "Descripción de nuevo diagrama STRIDE",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": []
       }
     ],
-    "diagramTop": 2,
+    "diagramTop": 3,
     "reviewer": "Jiatz",
     "threatTop": 0
   }
